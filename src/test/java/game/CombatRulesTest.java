@@ -55,4 +55,10 @@ public class CombatRulesTest {
         boolean dead = CombatRules.isDead(-5);
         assertTrue(dead);
     }
+
+    @Test
+    void testIsDead_exactOneHpBoundary() {
+        // check exact boundary right above 0
+        assertFalse(CombatRules.isDead(1));
+    }
 }
