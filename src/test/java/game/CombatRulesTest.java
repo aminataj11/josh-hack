@@ -61,4 +61,10 @@ public class CombatRulesTest {
         // check exact boundary right above 0
         assertFalse(CombatRules.isDead(1));
     }
+
+    @Test
+    void testCalculateNewHp_zeroChange() {
+        // make sure passing 0 doesn't change current HP
+        assertEquals(50, CombatRules.calculateNewHp(50, 100, 0));
+    }
 }
