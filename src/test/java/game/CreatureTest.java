@@ -37,11 +37,15 @@ public class CreatureTest {
         assertEquals(100, creature.hp());
     }
 
-    @Test
     
-    void testModifyHp_triggersDeathPath() {
-        // deal massive damage so hp drops below 1 and triggers death/removal
-        creature.modifyHp(-150, "fell off a cliff");
-        assertTrue(CombatRules.isDead(creature.hp()));
+    
+    @Test
+    void testModifyHp_survivesAtOneHp() {
+        // make sure taking 99 damage from 100 leaves 1 HP and doesn't trigger death
+        creature.modifyHp(-99, "barely survived");
+        assertEquals(1, creature.hp());
+        assertFalse(CombatRules.isDead(creature.hp()));
     }
+
+    
 }
