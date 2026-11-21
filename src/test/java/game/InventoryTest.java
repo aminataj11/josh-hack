@@ -44,17 +44,14 @@ public class InventoryTest {
     }
 
     @Test
-    public void testContainsAndRemove() {
-        inventory.add(item1);
-        
-        assertTrue(inventory.contains(item1));
-        assertFalse(inventory.contains(item2));
-
-        // Remove existing item
-        inventory.remove(item1);
-        assertFalse(inventory.contains(item1));
-
-        // Remove item not in inventory (covers branch where item != i)
-        inventory.remove(item2);
+    void testInventoryFullAndRemove() {
+        // test filling inventory to max capacity and then removing the item
+        Inventory inv = new Inventory(1);
+        assertFalse(inv.isFull());
+        Item rock = new Item('r', java.awt.Color.GRAY, "rock", null);
+        inv.add(rock);
+        assertTrue(inv.isFull());
+        inv.remove(rock);
+        assertFalse(inv.isFull());
     }
 }
