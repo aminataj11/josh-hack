@@ -69,6 +69,19 @@
                     </targetClasses>
                 </configuration>
             </plugin>
+<plugin>
+    <groupId>com.github.spotbugs</groupId>
+    <artifactId>spotbugs-maven-plugin</artifactId>
+    <version>4.8.6.2</version>
+    <configuration>
+        <effort>Max</effort>
+        <threshold>Low</threshold>
+        <sarifOutput>true</sarifOutput>
+        <sarifOutputFilename>spotbugs.sarif</sarifOutputFilename>
+        <failOnError>false</failOnError>
+    </configuration>
+</plugin>
+
         </plugins>
     </build>
 </project>

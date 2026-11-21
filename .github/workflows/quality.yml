@@ -1,27 +1,40 @@
 name: JoshHack Quality Checks
 on:
   push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
+
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'maven'
-    - name: Run JUnit regression tests
-      run: ./mvnw test
-    - name: Run PIT mutation testing
-      run: ./mvnw test-compile org.pitest:pitest-maven:mutationCoverage
-    - name: Upload PIT report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: pit-report
-        path: target/pit-reports/
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Run JUnit regression tests
+        run: ./mvnw test
+      - name: Run PIT mutation testing
+        run: ./mvnw test-compile org.pitest:pitest-maven:mutationCoverage
+      - name: Upload PIT report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pit-report
+          path: target/pit-reports/
+      - name: Run SpotBugs static analysis
+        run: ./mvnw spotbugs:spotbugs
+      - name: Upload SpotBugs SARIF to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: target/spotbugs.sarif
